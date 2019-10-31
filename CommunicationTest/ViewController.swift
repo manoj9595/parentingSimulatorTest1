@@ -1,4 +1,4 @@
-//
+//MANoj KUmar
 //  ViewController.swift
 //  CommunicationTest
 //
@@ -11,6 +11,7 @@ import WatchConnectivity
 
 class ViewController: UIViewController, WCSessionDelegate  {
 
+//    var name:String?
     // MARK: Outlets
     @IBOutlet weak var outputLabel: UITextView!
     
@@ -33,7 +34,7 @@ class ViewController: UIViewController, WCSessionDelegate  {
     
     // 3. This function is called when Phone receives message from Watch
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        
+       
         // 1. When a message is received from the watch, output a message to the UI
         // NOTE: Since session() runs in background, you cannot directly update UI from the background thread.
         // Therefore, you need to wrap any UI updates inside a DispatchQueue for it to work properly.
@@ -101,12 +102,44 @@ class ViewController: UIViewController, WCSessionDelegate  {
     // MARK: Choose a Pokemon actions
     
     @IBAction func pokemonButtonPressed(_ sender: Any) {
-        print("You pressed the pokemon button")
+        
+       print(" you selected pikachu ")
+               outputLabel.insertText("\n you selected pikachu")
+               if (WCSession.default.isReachable == true) {
+                   
+                   let pika = UIImage(named: "pikachu.png")!
+                   let chu = UIImagePNGRepresentation(pika)
+                   
+                   WCSession.default.sendMessageData(chu!, replyHandler: { (data) -> Void in
+                       // handle the response from the device
+                   }) { (error) -> Void in
+                       print("error: \(error.localizedDescription)")
+                       
+                   }
+               
+               }
+      
     }
     @IBAction func caterpieButtonPressed(_ sender: Any) {
-        print("You pressed the caterpie button")
-    }
-    
+    print("You selected caterpie ")
+             outputLabel.insertText("\n you selected caterpie")
+            if (WCSession.default.isReachable == true) {
+                
+                let cater = UIImage(named: "caterpie.png")!
+                let pie = UIImagePNGRepresentation(cater)
+                
+                WCSession.default.sendMessageData(pie!, replyHandler: { (data) -> Void in
+                    // handle the response from the device
+                }) { (error) -> Void in
+                    print("error: \(error.localizedDescription)")
+                    
+                }
+                
+                
+
+                
+            }
+        }
     
 }
 

@@ -39,9 +39,17 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         print("WATCH: Got message from Phone")
         // Message from phone comes in this format: ["course":"MADT"]
         let messageBody = message["course"] as! String
+        let pic = UIImage(named: "pikachu.png")
         messageLabel.setText(messageBody)
+        pokemonImageView.setImage(pic)
     }
-    
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        guard let image1 = UIImage(data: messageData) else { return  }
+        pokemonImageView.setImage(image1)
+        guard let image2 = UIImage(data: messageData) else { return  }
+        pokemonImageView.setImage(image2)
+           
+       }
 
 
     
@@ -64,6 +72,20 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         
+        print("WATCH APP LOADED")
+        
+        if (WCSession.isSupported() == true) {
+            
+           messageLabel.setText("WC is supported!")
+            
+        // create a communication session with the phone
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
+        else {
+            messageLabel.setText("WC is NOT supported!")
+        }
         
     }
     
@@ -105,6 +127,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     // MARK: Functions for Pokemon Parenting
     @IBAction func nameButtonPressed() {
         print("name button pressed")
+        pushController(withName: "Screen2Sample", context: nil)
+        
     }
 
     @IBAction func startButtonPressed() {

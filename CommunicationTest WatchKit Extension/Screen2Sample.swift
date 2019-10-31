@@ -29,6 +29,14 @@ class Screen2Sample: WKInterfaceController, WCSessionDelegate {
         //@TODO
     }
     
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        guard let pic1 = UIImage(data: messageData) else { return  }
+        pokemonImageView.setImage(pic1)
+        guard let pic2 = UIImage(data: messageData) else { return  }
+        pokemonImageView.setImage(pic2)
+        
+    }
+    
     // MARK: WatchKit Interface Controller Functions
     // ----------------------------------
     override func awake(withContext context: Any?) {
