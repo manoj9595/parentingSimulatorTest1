@@ -36,7 +36,7 @@ class Screen2Sample: WKInterfaceController, WCSessionDelegate {
         pokemonImageView.setImage(pic2)
         
     }
-    
+  
     // MARK: WatchKit Interface Controller Functions
     // ----------------------------------
     override func awake(withContext context: Any?) {
@@ -73,7 +73,20 @@ class Screen2Sample: WKInterfaceController, WCSessionDelegate {
     
     @IBAction func selectNameButtonPressed() {
         print("select name button pressed")
+        let cannedResponses = ["Leo", "booze","shadow", "reez", "charmy", "lapras", ]
+        presentTextInputController(withSuggestions: cannedResponses, allowedInputMode: .plain) {
+            
+            (results) in
+            
+            if (results != nil && results!.count > 0) {
+                let userResponse = results?.first as? String
+                print(userResponse!)
+                    self.nameLabel.setText(userResponse)
+            }
+            
+
+        }
+    }
+
     }
     
-
-}
